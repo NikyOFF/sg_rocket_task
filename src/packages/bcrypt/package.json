@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@nestjs/common": "^9.1.6",
+    "bcrypt": "^5.0.1"
+  }
+}

@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  backend:
+    image: sg-rocket-task-backend
+    container_name: backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm run seed:drop
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - redis
+      - mongo
+  postgres:
+    image: postgres
+    container_name: postgres_database
+    environment:
+      POSTGRES_DB: "main"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+  redis:
+    image: redis
+    container_name: redis_database
+  mongo:
+    image: mongo:6.0.2
+    container_name: mongo_database
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=admin

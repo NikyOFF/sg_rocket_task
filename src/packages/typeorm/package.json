@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "typeorm": "^0.3.7",
+    "@nestjs/common": "^9.1.6",
+    "@nestjs/typeorm": "^9.0.1"
+  }
+}
