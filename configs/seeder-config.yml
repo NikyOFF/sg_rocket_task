@@ -1,0 +1,6 @@
+min_users_count: 2
+max_users_count: 10
+min_lawyers_count: 2
+max_lawyers_count: 10
+min_consultations_count: 50
+max_consultations_count: 100

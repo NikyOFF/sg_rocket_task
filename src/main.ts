@@ -6,6 +6,7 @@ import {
   VersioningType,
 } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AuthStrategyTypeEnum } from '@modules/auth/common/enums/auth-strategy-type.enum';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -36,7 +37,7 @@ async function bootstrap() {
     .setTitle('Sg Rocket Task')
     .setDescription('The Sg Rocket Task API')
     .setVersion('1.0')
-    // .addBearerAuth({ type: 'http' }, AuthStrategyTypeEnum.PLACE_MEMBER_JWT)
+    .addBearerAuth({ type: 'http' }, AuthStrategyTypeEnum.BASE_USER_JWT)
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

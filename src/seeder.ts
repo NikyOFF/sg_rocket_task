@@ -3,7 +3,13 @@ import { InitialSeeder } from '@/seeders/initial.seeder';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EnvironmentConfigKeyEnum } from '@common/enums/environment-config-key.enum';
-import { AgendaModule } from 'nestjs-agenda';
+import SeederConfig from '@/seeders/config/seeder-config.loader';
+import { UsersModule } from '@modules/users/users.module';
+import { AuthModule } from '@modules/auth/auth.module';
+import { AgendaModule } from '@packages/agenda/agenda.module';
+import { NotificationsModule } from '@modules/notifications/notifications.module';
+import { ConsultationsModule } from '@modules/consultations/consultations.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 seeder({
   imports: [
@@ -12,6 +18,8 @@ seeder({
       cache: true,
       envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
+    ConfigModule.forFeature(SeederConfig),
+    EventEmitterModule.forRoot(),
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
@@ -31,12 +39,15 @@ seeder({
       }),
       inject: [ConfigService],
     }),
-    AgendaModule.registerAsync({
+    AgendaModule.forRootAsync({
       useFactory: async (config: ConfigService) => ({
         db: { address: config.get(EnvironmentConfigKeyEnum.MONGODB_HOST) },
       }),
       inject: [ConfigService],
     }),
+    UsersModule,
+    AuthModule,
+    NotificationsModule,
+    ConsultationsModule,
   ],
-  providers: [],
 }).run([InitialSeeder]);

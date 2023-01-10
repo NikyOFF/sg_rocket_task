@@ -15,7 +15,6 @@ services:
       - "3000:3000"
     depends_on:
       - postgres
-      - redis
       - mongo
   postgres:
     image: postgres
@@ -24,9 +23,8 @@ services:
       POSTGRES_DB: "main"
       POSTGRES_USER: "admin"
       POSTGRES_PASSWORD: "admin"
-  redis:
-    image: redis
-    container_name: redis_database
+    ports:
+      - "5432:5432"
   mongo:
     image: mongo:6.0.2
     container_name: mongo_database

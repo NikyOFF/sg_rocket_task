@@ -1,0 +1,5 @@
+access_token:
+  secret_key: "atsk"
+  expires_in: "10d"
+  algorithm: ""
+hash_secret: "test"

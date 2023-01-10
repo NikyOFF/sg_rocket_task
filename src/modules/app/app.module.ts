@@ -1,10 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AppController } from './controllers/app.controller';
+import AppService from './services/app';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EnvironmentConfigKeyEnum } from '@common/enums/environment-config-key.enum';
-import { AgendaModule } from 'nestjs-agenda';
+import { UsersModule } from '@modules/users/users.module';
+import { AuthModule } from '@modules/auth/auth.module';
+import { NotificationsModule } from '@modules/notifications/notifications.module';
+import { ConsultationsModule } from '@modules/consultations/consultations.module';
+import { AgendaModule } from '@packages/agenda/agenda.module';
 
 @Module({
   imports: [
@@ -13,6 +18,7 @@ import { AgendaModule } from 'nestjs-agenda';
       cache: true,
       envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
+    EventEmitterModule.forRoot(),
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
@@ -32,14 +38,18 @@ import { AgendaModule } from 'nestjs-agenda';
       }),
       inject: [ConfigService],
     }),
-    AgendaModule.registerAsync({
+    AgendaModule.forRootAsync({
       useFactory: async (config: ConfigService) => ({
         db: { address: config.get(EnvironmentConfigKeyEnum.MONGODB_HOST) },
       }),
       inject: [ConfigService],
     }),
+    UsersModule,
+    AuthModule,
+    NotificationsModule,
+    ConsultationsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService.PROVIDER],
 })
 export class AppModule {}
