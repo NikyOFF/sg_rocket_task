@@ -6,6 +6,9 @@
 $ npm install
 ```
 
+## API
+<a href="http://localhost:3000/api">localhost:3000/api</a>
+
 ## Запуск приложения
 ```bash
 # development mode
