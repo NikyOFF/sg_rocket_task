@@ -59,11 +59,9 @@ export class ConsultationsService
       },
     });
 
-    console.log(lastConsultation);
-
     if (
       lastConsultation &&
-      (data.startAt - lastConsultation.startAt >
+      (data.startAt - lastConsultation.startAt <
         this.consultationsConfig.minInterval ||
         Date.now() > data.startAt)
     ) {

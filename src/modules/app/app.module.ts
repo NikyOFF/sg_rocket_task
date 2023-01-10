@@ -10,9 +10,20 @@ import { AuthModule } from '@modules/auth/auth.module';
 import { NotificationsModule } from '@modules/notifications/notifications.module';
 import { ConsultationsModule } from '@modules/consultations/consultations.module';
 import { AgendaModule } from '@packages/agenda/agenda.module';
+import { WinstonModule } from 'nest-winston';
+import winston from 'winston';
 
 @Module({
   imports: [
+    WinstonModule.forRoot({
+      transports: [
+        new winston.transports.File({
+          dirname: `${process.cwd()}/logs`,
+          filename: `${Date.now()}-info.log`,
+          level: 'info',
+        }),
+      ],
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       cache: true,
