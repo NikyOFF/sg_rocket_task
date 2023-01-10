@@ -1,1 +1,0 @@
-export const REDIS_MODULE_CONNECTION = 'DEFAULT';
